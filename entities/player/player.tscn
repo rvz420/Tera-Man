@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://entities/player/player.gd" type="Script" id=1]
 [ext_resource path="res://entities/player/player.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://entities/player/States/IdleState.gd" type="Script" id=4]
 [ext_resource path="res://entities/player/States/RunningState.gd" type="Script" id=5]
 [ext_resource path="res://entities/player/States/JumpingState.gd" type="Script" id=6]
+[ext_resource path="res://entities/player/States/FallingState.gd" type="Script" id=7]
+[ext_resource path="res://entities/player/States/ShootingState.gd" type="Script" id=8]
+[ext_resource path="res://entities/player/States/JumpingAndShootingState.gd" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -105,6 +108,37 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=5]
 
+resource_name = "jump_shoot"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("pivot/sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 66, 66, 29, 30 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("pivot/spawn_shoot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 23, -5 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+
 length = 0.4
 loop = true
 step = 0.1
@@ -133,7 +167,49 @@ tracks/1/keys = {
 "values": [ Rect2( 34, 42, 24, 22 ), Rect2( 69, 40, 16, 24 ), Rect2( 97, 42, 21, 22 ), Rect2( 69, 40, 16, 24 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("pivot/sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 0, 104, 31, 24 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("pivot/sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 5, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("pivot/spawn_shoot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 23, -1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
 
 length = 1.0
 loop = false
@@ -175,6 +251,36 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 2 ) ]
 }
 
+[sub_resource type="Animation" id=9]
+
+length = 0.4
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("pivot/sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 34, 106, 29, 22 ), Rect2( 69, 104, 26, 24 ), Rect2( 97, 106, 30, 22 ), Rect2( 69, 104, 26, 24 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("pivot/spawn_shoot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 23, -1 ), Vector2( 23, -2 ), Vector2( 23, -0.99 ), Vector2( 23, -1.995 ) ]
+}
+
 [node name="player" type="KinematicBody2D" index="0"]
 
 input_pickable = false
@@ -183,6 +289,9 @@ collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
 run_speed = 82.5
 jump_speed = 300
 gravity = 200
@@ -200,15 +309,16 @@ texture = ExtResource( 2 )
 hframes = 5
 frame = 1
 region_enabled = true
-region_rect = Rect2( 100, 8, 21, 24 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-__meta__ = {
-"_edit_lock_": true
-}
+region_rect = Rect2( 34, 42, 24, 22 )
+_sections_unfolded = [ "Offset", "Region", "Transform", "Visibility" ]
+
+[node name="spawn_shoot" type="Position2D" parent="pivot" index="1"]
+
+position = Vector2( 23, -5 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="hit_zone" type="CollisionShape2D" parent="." index="1"]
 
-visible = false
 position = Vector2( 0, 2 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -226,13 +336,24 @@ playback_speed = 1.0
 anims/fall = SubResource( 2 )
 anims/idle = SubResource( 3 )
 anims/jump = SubResource( 4 )
-anims/run = SubResource( 5 )
-anims/step = SubResource( 6 )
+anims/jump_shoot = SubResource( 5 )
+anims/run = SubResource( 6 )
+anims/stand_shoot = SubResource( 7 )
+anims/step = SubResource( 8 )
+anims/walk_shoot = SubResource( 9 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
-[node name="states" type="Node" parent="." index="3"]
+[node name="shoot_delay" type="Timer" parent="." index="3"]
 
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="states" type="Node" parent="." index="4"]
+
+editor/display_folded = true
 script = ExtResource( 3 )
 
 [node name="idle" type="Node" parent="states" index="0"]
@@ -246,5 +367,17 @@ script = ExtResource( 5 )
 [node name="jumping" type="Node" parent="states" index="2"]
 
 script = ExtResource( 6 )
+
+[node name="falling" type="Node" parent="states" index="3"]
+
+script = ExtResource( 7 )
+
+[node name="shooting" type="Node" parent="states" index="4"]
+
+script = ExtResource( 8 )
+
+[node name="jumping_and_shooting" type="Node" parent="states" index="5"]
+
+script = ExtResource( 9 )
 
 

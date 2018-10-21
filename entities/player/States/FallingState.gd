@@ -1,12 +1,11 @@
 extends "res://entities/player/PlayerState.gd"
 
 func enter():
-	player.vel.y -= player.jump_speed
 	player.play_anim("jump")
 
 func update(delta):
-	if player.vel.y >= 0:
-		player.set_state(player.FALLING)
+	if player.is_on_floor():
+		player.set_state(player.IDLE)
 
 func handle_input():
 	if Input.is_action_pressed("ui_right"):
@@ -19,8 +18,6 @@ func handle_input():
 		player.vel.x = 0
 	if Input.is_action_just_released("ui_left"):
 		player.vel.x = 0
-	if Input.is_action_just_pressed("b"):
-		player.set_state(player.JUMPNSHOOTING)
 
 func exit():
 	pass
