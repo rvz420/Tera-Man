@@ -1,7 +1,6 @@
 extends "res://entities/player/PlayerState.gd"
 
 func enter():
-	player.vel.y -= player.jump_speed
 	player.play_anim("jump")
 
 func update(delta):
@@ -11,10 +10,10 @@ func update(delta):
 func handle_input():
 	if Input.is_action_pressed("ui_right"):
 		player.vel.x = player.run_speed	
-		$"../../pivot".scale.x = 1
+		player.flip(1)
 	if Input.is_action_pressed("ui_left"):
 		player.vel.x = -player.run_speed
-		$"../../pivot".scale.x = -1
+		player.flip(-1)
 	if Input.is_action_just_released("ui_right"):
 		player.vel.x = 0
 	if Input.is_action_just_released("ui_left"):

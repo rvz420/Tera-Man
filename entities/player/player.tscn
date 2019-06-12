@@ -300,21 +300,23 @@ step_speed = 0
 
 [node name="pivot" type="Position2D" parent="." index="0"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="sprite" type="Sprite" parent="pivot" index="0"]
 
 show_behind_parent = true
+position = Vector2( 5, 0 )
 texture = ExtResource( 2 )
 hframes = 5
 frame = 1
 region_enabled = true
-region_rect = Rect2( 34, 42, 24, 22 )
+region_rect = Rect2( 34, 106, 29, 22 )
 _sections_unfolded = [ "Offset", "Region", "Transform", "Visibility" ]
 
 [node name="spawn_shoot" type="Position2D" parent="pivot" index="1"]
 
-position = Vector2( 23, -5 )
+position = Vector2( 23, -1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="hit_zone" type="CollisionShape2D" parent="." index="1"]

@@ -3,15 +3,22 @@
 [ext_resource path="res://levels/Level 1/level_1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/player/player.tscn" type="PackedScene" id=2]
 
-[node name="main" type="Node"]
+[node name="main" type="Node" index="0"]
+
+_sections_unfolded = [ "Pause" ]
 
 [node name="content" type="Node2D" parent="." index="0"]
 
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
+
 [node name="level_1" parent="content" index="0" instance=ExtResource( 1 )]
+
+_sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="player" parent="content" index="1" instance=ExtResource( 2 )]
 
 position = Vector2( 25.2473, 187.38 )
+_sections_unfolded = [ "Collision", "Material", "Pickable", "Transform", "Visibility", "Z Index", "collision" ]
 gravity = 15
 
 [node name="ui" type="CanvasLayer" parent="." index="1"]

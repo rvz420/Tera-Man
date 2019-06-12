@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+#Constans
+const DIR_RIGHT = 1
+const DIR_LEFT = -1
+
 #Export variables
 export var run_speed = 82.5 #pixels per second
 export var jump_speed = 300 #pixels per second
@@ -10,6 +14,7 @@ export var step_speed = 1/7
 #Member vars
 var vel = Vector2()
 var init_step = true
+var dir = DIR_RIGHT
 var curr_state
 
 #States 
@@ -21,11 +26,12 @@ onready var falling_state = $states/falling
 onready var shooting_state = $states/shooting
 onready var jumping_and_shooting_state = $states/jumping_and_shooting
 
+
 func _ready():
 	set_state(state.IDLE)
-
+	
 func _process(delta):
-	print(curr_state.name, vel, delta, $"pivot/spawn_shoot".position)
+	print($pivot/spawn_shoot.global_position)
 	vel.y += gravity 
 	curr_state.handle_input()
 	curr_state.update(delta)
@@ -39,13 +45,9 @@ func play_anim(var anim):
 		$anim.play(anim)
 
 func flip(var dir):
+	self.dir = dir
 	$"pivot".scale.x = dir
-	var pos = abs($"pivot/spawn_shoot".position.x)
-	if dir > 0:
-		$"pivot/spawn_shoot".position.x = pos
-	else:
-		$"pivot/spawn_shoot".position.x = -pos
-
+	
 func set_state(new_state):
 	if curr_state:
 		curr_state.exit()
@@ -63,3 +65,6 @@ func set_state(new_state):
 		state.JUMPNSHOOTING:
 			curr_state = jumping_and_shooting_state
 	curr_state.init(self)
+	
+func get_shoot_position():
+	return $pivot/spawn_shoot.global_position
